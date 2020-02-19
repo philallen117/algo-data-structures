@@ -1,43 +1,67 @@
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.ArrayDeque;
 import java.util.Scanner;
 
 class Request {
+    public int arrival_time;
+    public int process_time;
+
     public Request(int arrival_time, int process_time) {
         this.arrival_time = arrival_time;
         this.process_time = process_time;
     }
-
-    public int arrival_time;
-    public int process_time;
 }
 
 class Response {
-    public Response(boolean dropped, int start_time) {
+    public Response(boolean dropped, int start_time, int finish_time) {
         this.dropped = dropped;
         this.start_time = start_time;
+        this.finish_time = finish_time;
     }
 
     public boolean dropped;
     public int start_time;
+    public int finish_time;
 }
 
 class Buffer {
+    private int size;
+    private ArrayDeque<Response> q;
+
     public Buffer(int size) {
-        this.size_ = size;
-        this.finish_time_ = new ArrayList<Integer>();
+        this.size = size;
+        this.q = new ArrayDeque<Response>(size);
     }
 
-    public Response Process(Request request) {
+    public Response process(Request request) {
         // write your code here
-        return new Response(false, -1);
+        return process_packages.processNext(size, request, q);
     }
-
-    private int size_;
-    private ArrayList<Integer> finish_time_;
 }
 
 class process_packages {
+
+    // Mutates requestQueue to add new arrival, if within capacity
+    static Response processNext(int size, Request arrival, ArrayDeque<Response> q) {
+        int arrival_time = arrival.arrival_time;
+        while (!q.isEmpty() && q.peekLast().start_time > arrival_time) q.removeLast();
+        if (q.size() >= size) return new Response(true, -1, 0);
+        int start_time = Math.max(arrival_time, q.peekFirst().start_time + q.peekFirst().finish_time);
+        int finish_time = start_time + arrival.process_time;
+        return new Response(false, start_time, finish_time);
+    }
+
+    static ArrayList<Response> processAll(int size, ArrayList<Request> reqs) {
+        ArrayList<Response> resps = new ArrayList<Response>(size);
+        ArrayDeque<Response> q = new ArrayDeque<Response>(size);
+        for (Request req : reqs) {
+            Response resp = processNext(size, req, q);
+            resps.add(resp);
+        }
+        return resps;
+    }
+
     private static ArrayList<Request> ReadQueries(Scanner scanner) throws IOException {
         int requests_count = scanner.nextInt();
         ArrayList<Request> requests = new ArrayList<Request>();
@@ -52,7 +76,7 @@ class process_packages {
     private static ArrayList<Response> ProcessRequests(ArrayList<Request> requests, Buffer buffer) {
         ArrayList<Response> responses = new ArrayList<Response>();
         for (int i = 0; i < requests.size(); ++i) {
-            responses.add(buffer.Process(requests.get(i)));
+            responses.add(buffer.process(requests.get(i)));
         }
         return responses;
     }

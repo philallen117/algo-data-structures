@@ -3,6 +3,7 @@ lib/
 *.jar
 *.class
 .vscode/
+*.drjava
 
 # OS generated files #
 ######################
