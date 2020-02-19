@@ -1,5 +1,8 @@
 *.pdf
 lib/
+*.jar
+*.class
+.vscode/
 
 # OS generated files #
 ######################

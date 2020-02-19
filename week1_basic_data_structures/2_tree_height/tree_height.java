@@ -20,6 +20,28 @@ public class tree_height {
 		}
 	}
 
+	public static int height(int parent[], int n) {
+		int maxHeight = 0;
+		int height[] = new int[n]; // assume init 0, so root is already correct
+		for (int vertex = 0; vertex < n; vertex++) {
+			if (height[vertex] > 0 || parent[vertex] == -1) continue; // known or root
+			Stack<Integer> path = new Stack<Integer>();
+			path.push(vertex);
+			int pv = parent[vertex];
+			while (pv != - 1 && height[pv] > 0) { // not known
+				path.push(pv);
+				pv = parent[pv];
+			}
+			int pvHeight = height[pv];
+			while (!path.isEmpty()) {
+				pvHeight += 1;
+				pv = path.pop();
+				height[pv] = pvHeight;
+			}
+		}
+		return maxHeight;
+	}
+
 	public class TreeHeight {
 		int n;
 		int parent[];
@@ -34,15 +56,7 @@ public class tree_height {
 		}
 
 		int computeHeight() {
-                        // Replace this code with a faster implementation
-			int maxHeight = 0;
-			for (int vertex = 0; vertex < n; vertex++) {
-				int height = 0;
-				for (int i = vertex; i != -1; i = parent[i])
-					height++;
-				maxHeight = Math.max(maxHeight, height);
-			}
-			return maxHeight;
+			return height(parent, n);
 		}
 	}
 
