@@ -15,15 +15,17 @@ public class StackWithMax {
                 tok = new StringTokenizer(in.readLine());
             return tok.nextToken();
         }
+
         int nextInt() throws IOException {
             return Integer.parseInt(next());
         }
     }
 
-    private class StackMaxInt {
+    public class StackMaxInt {
         class Pair {
             public int elem;
             public int max;
+
             public Pair(int elem, int max) {
                 this.elem = elem;
                 this.max = max;
@@ -32,8 +34,13 @@ public class StackWithMax {
 
         public Stack<Pair> s = new Stack<Pair>();
 
+        public boolean empty() {
+            return s.empty();
+        }
+
         public int max() {
-            if (s.empty()) return 0;
+            if (s.empty())
+                return 0;
             return s.peek().max;
         }
 

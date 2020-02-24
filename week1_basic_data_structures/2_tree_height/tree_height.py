@@ -5,6 +5,23 @@ import threading
 
 
 def compute_height(n, parents):
+    heights = [0]*n
+    for v in range(n):
+        if heights[v] > 0 or parents[v] == -1: continue;
+        path = []
+        pv = v
+        while heights[pv] == 0 and pv != 1:
+            path.append(pv)
+            pv = parents[pv]
+        h = 0 if pv == -1 else heights[pv]
+        while len(path) > 0:
+            pv = path.remove()
+            h += 1
+            heights[pv] = h
+    return max(heights)
+
+
+def compute_height_naive(n, parents):
     # Replace this code with a faster implementation
     max_height = 0
     for vertex in range(n):
