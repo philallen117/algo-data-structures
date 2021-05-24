@@ -1,17 +1,21 @@
-# python -m test_tree_height <list of testfile names>
+# python -m test_check_brackets <list of testfile names>
 
 from pathlib import Path
 from argparse import ArgumentParser
-from .tree_height import compute_height
+from .check_brackets import find_mismatch
 
 
 def check(stem):
     with Path('./tests/{}.a'.format(stem)).open() as answer_file, \
             Path('./tests/{}'.format(stem)).open() as test_case_file:
-        exp = int(answer_file.readline().strip())
-        n = int(test_case_file.readline().strip())
-        parents = list(map(int, test_case_file.readline().split()))
-        act = compute_height(n, parents)
+        test_case = test_case_file.readline().strip()
+        act = find_mismatch(test_case)
+        answer = answer_file.readline().strip()
+        exp = -1
+        if answer == 'Success':
+            exp = 0
+        else:
+            exp = int(answer)
         if exp == act:
             print('.')
         else:
@@ -22,5 +26,6 @@ if __name__ == "__main__":
     ap = ArgumentParser()
     ap.add_argument(dest='stem', nargs='+')
     args = ap.parse_args()
+    print(args.stem)
     for stem in args.stem:
         check(stem)

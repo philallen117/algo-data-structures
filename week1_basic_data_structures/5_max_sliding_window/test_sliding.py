@@ -50,8 +50,9 @@ class TestSliding(unittest.TestCase):
         self.assertEqual(6, q.max())
         q.add(4)
         self.assertEqual(6, q.max())
-        # 1 5 3 6 4
         q.add(1)
+        # Intial window of 6: 1 5 3 6 4 1
+        # Now take and add in pairs.
         self.assertEqual(6, q.max())
         q.take()
         q.add(1)
@@ -69,16 +70,20 @@ class TestSliding(unittest.TestCase):
         q.add(5)
         self.assertEqual(5, q.max())
         q.take()
-#           -----------
-# 1 5 3 6 4 1 1 1 2 1 5
-#           6 6 6 6 4 5
 
+#           -----------
+# 1 5 3 6 4 1 1 1 2 1 5 ... seq and w = 1
+#   5 5 6 6 4 1 1 2 1 5 ... w = 2
+#       6 6 6 6 4 2 2 5 ... w = 4
+#           6 6 6 6 4 5 ... w = 6
     def test_msw_1(self):
         seq = [1, 5, 3, 6, 4, 1, 1, 1, 2, 1, 5]
         act1 = m.max_sliding_window(seq, 1)
         self.assertListEqual([1, 5, 3, 6, 4, 1, 1, 1, 2, 1, 5], act1)
         act2 = m.max_sliding_window(seq, 2)
         self.assertListEqual([5, 5, 6, 6, 4, 1, 1, 2, 2, 5], act2)
+        act4 = m.max_sliding_window(seq, 4)
+        self.assertListEqual([6, 6, 6, 6, 4, 2, 2, 5], act4)
         act6 = m.max_sliding_window(seq, 6)
         self.assertListEqual([6, 6, 6, 6, 4, 5], act6)
 

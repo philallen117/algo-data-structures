@@ -9,15 +9,15 @@ class MaxIntStack:
 
     def __str__(self): return str(self.__s)
 
-    def empty(self): return len(self.__s) == 0
+    def empty(self): return not self.__s
 
-    def max(self): return (self.__s[-1:][0]).max
+    def max(self): return self.__s[-1].max
 
-    def top(self): return (self.__s[-1:][0]).elem
+    def top(self): return self.__s[-1].elem
 
     def push(self, i):
-        this_max = i if len(self.__s) == 0 else max(i, (self.__s[-1:][0]).max)
-        self.__s.append(P(i, this_max))
+        new_max = max(i, self.__s[-1].max) if self.__s else i
+        self.__s.append(P(i, new_max))
 
     def pop(self): return self.__s.pop().elem
 
@@ -76,4 +76,4 @@ if __name__ == '__main__':
     input_sequence = [int(i) for i in input().split()]
     assert len(input_sequence) == n
     window_size = int(input())
-    print(*max_sliding_window_naive(input_sequence, window_size))
+    print(*max_sliding_window(input_sequence, window_size))
