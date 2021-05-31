@@ -1,4 +1,4 @@
-# python -m test_network <list of testfile names>
+# python -m int_test <list of testfile names>
 
 from pathlib import Path
 from argparse import ArgumentParser

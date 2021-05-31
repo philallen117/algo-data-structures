@@ -1,8 +1,8 @@
-# python -m test_tree_height <list of testfile names>
+# python -m int_test <list of testfile names>
 
 from pathlib import Path
 from argparse import ArgumentParser
-from .tree_height import compute_height
+from tree_height import compute_height
 
 
 def check(stem):

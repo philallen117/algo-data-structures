@@ -1,12 +1,14 @@
 # python3
 
 from collections import namedtuple
+import heapq
 
 AssignedJob = namedtuple("AssignedJob", ["worker", "started_at"])
 
 
 def assign_jobs(n_workers, jobs):
     # TODO: replace this code with a faster algorithm.
+    
     result = []
     next_free_time = [0] * n_workers
     for job in jobs:

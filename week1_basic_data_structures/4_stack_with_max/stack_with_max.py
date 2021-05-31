@@ -28,23 +28,6 @@ class StackWithMax():
         return self.__stack[-1].sup
 
 
-def test():
-    s = StackWithMax()
-    s.push(1)
-    assert(not s.empty())
-    s.push(5)
-    assert(5 == s.max())
-    s.push(3)
-    assert(5 == s.max())
-    s.push(6)
-    assert(6 == s.max())
-    s.pop()
-    assert(5 == s.max())
-    s.pop()
-    s.pop()
-    assert(1 == s.max())
-
-
 if __name__ == '__main__':
     stack = StackWithMax()
 

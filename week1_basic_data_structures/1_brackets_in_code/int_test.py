@@ -1,8 +1,8 @@
-# python -m test_check_brackets <list of testfile names>
+# python -m int_test <list of testfile names>
 
 from pathlib import Path
 from argparse import ArgumentParser
-from .check_brackets import find_mismatch
+from check_brackets import find_mismatch
 
 
 def check(stem):
